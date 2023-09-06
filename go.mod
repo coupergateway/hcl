@@ -1,4 +1,4 @@
-module github.com/avenga/hcl
+module github.com/coupergateway/hcl
 
 go 1.12
 
@@ -15,6 +15,7 @@ require (
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7
 	github.com/sergi/go-diff v1.0.0
 	github.com/spf13/pflag v1.0.2
+	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/zclconf/go-cty v1.8.0
 	github.com/zclconf/go-cty-debug v0.0.0-20191215020915-b22d67c1ba0b
 	golang.org/x/crypto v0.0.0-20190426145343-a29dc8fdc734
