@@ -90,16 +90,21 @@ func ImpliedBodySchema(val interface{}) (schema *hcl.BodySchema, partial bool) {
 		}
 		ftags := getFieldTags(fty)
 		var labelNames []string
+		var labelOptional bool
 		if len(ftags.Labels) > 0 {
 			labelNames = make([]string, len(ftags.Labels))
 			for i, l := range ftags.Labels {
 				labelNames[i] = l.Name
+				if l.Optional {
+					labelOptional = true
+				}
 			}
 		}
 
 		blockSchemas = append(blockSchemas, hcl.BlockHeaderSchema{
-			Type:       n,
-			LabelNames: labelNames,
+			Type:          n,
+			LabelNames:    labelNames,
+			LabelOptional: labelOptional,
 		})
 	}
 
@@ -132,6 +137,7 @@ type labelField struct {
 	FieldIndex int
 	RangeIndex int
 	Name       string
+	Optional   bool
 }
 
 func getFieldTags(ty reflect.Type) *fieldTags {
@@ -172,6 +178,12 @@ func getFieldTags(ty reflect.Type) *fieldTags {
 			ret.Labels = append(ret.Labels, labelField{
 				FieldIndex: i,
 				Name:       name,
+			})
+		case "label_optional":
+			ret.Labels = append(ret.Labels, labelField{
+				FieldIndex: i,
+				Name:       name,
+				Optional:   true,
 			})
 		case "remain":
 			if ret.Remain != nil {
